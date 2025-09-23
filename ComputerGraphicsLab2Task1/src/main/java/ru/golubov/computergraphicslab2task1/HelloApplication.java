@@ -6,6 +6,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -18,6 +22,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ru.golubov.computergraphicslab2task1.impl.DifferenceBetweenHalftoneImagesFinderImpl;
 import ru.golubov.computergraphicslab2task1.impl.GrayScaleConverterImpl;
+import ru.golubov.computergraphicslab2task1.impl.IntensityHistogramDataCalculatorImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -96,6 +101,20 @@ public class HelloApplication extends Application {
             Scene grayImagesScene = new Scene(gridPane);
             stage.setScene(grayImagesScene);
 
+            IntensityHistogramDataCalculator intensityHistogramDataCalculator = new IntensityHistogramDataCalculatorImpl(imageInColorsPAL_NTSC);
+            var barChart = createHistogramChart(intensityHistogramDataCalculator.calculate(), "PAL/NTSC");
+            Scene histogramsScene = new Scene(barChart);
+            Stage histogramsStage = new Stage();
+            histogramsStage.setScene(histogramsScene);
+            histogramsStage.show();
+
+            intensityHistogramDataCalculator = new IntensityHistogramDataCalculatorImpl(imageInColorsHDTV);
+            var barChartHDTV = createHistogramChart(intensityHistogramDataCalculator.calculate(), "HDTV");
+            Scene histogramsSceneHDTV = new Scene(barChartHDTV);
+            Stage histogramsStageHDTV = new Stage();
+            histogramsStageHDTV.setScene(histogramsSceneHDTV);
+            histogramsStageHDTV.show();
+
         });
 
 
@@ -141,6 +160,36 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(gridPane, 1200, 700);
 
         return scene;
+    }
+
+    private BarChart<String, Number> createHistogramChart(int[] histogramData, String histogramTitle) {
+        // Создаем оси графика
+        // CategoryAxis для X (значения яркости 0, 1, 2... 255)
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Яркость");
+
+        // NumberAxis для Y (количество пикселей)
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Количество пикселей");
+
+        // Создаем сам график
+        BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+        barChart.setTitle(histogramTitle);
+        barChart.setLegendVisible(false); // Скрываем легенду, она нам не нужна
+
+        // Создаем серию данных для графика
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+
+        // Заполняем данными из массива histogramData
+        for (int i = 0; i < histogramData.length; i++) {
+            // Добавляем столбец для каждой яркости
+            series.getData().add(new XYChart.Data<>(String.valueOf(i), histogramData[i]));
+        }
+
+        // Добавляем серию данных на график
+        barChart.getData().add(series);
+
+        return barChart;
     }
 
     public static void main(String[] args) {

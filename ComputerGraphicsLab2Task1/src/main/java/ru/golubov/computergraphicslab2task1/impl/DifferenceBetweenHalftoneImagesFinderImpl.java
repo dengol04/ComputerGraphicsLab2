@@ -26,7 +26,7 @@ public class DifferenceBetweenHalftoneImagesFinderImpl implements DifferenceBetw
         for (int x = 0; x < firstHalftoneImage.getWidth(); ++x)
             for (int y = 0; y < firstHalftoneImage.getHeight(); ++y) {
                 double difference = Math.abs(firstHalftoneImagePixelReader.getColor(x, y).getBlue() -
-                        secondHalftoneImagePixelReader.getColor(x, y).getBlue());
+                        secondHalftoneImagePixelReader.getColor(x, y).getBlue()) + 0.2;
 
                 differenceImagePixelWriter.setColor(x, y, Color.color(difference, difference, difference));
             }
