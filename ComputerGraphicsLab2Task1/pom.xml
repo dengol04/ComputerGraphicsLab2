@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                ru.golubov.computergraphicslab2task1/ru.golubov.computergraphicslab2task1.HelloApplication
+                                ru.golubov.computergraphicslab2task1/ru.golubov.computergraphicslab2task1.Lab2Task1
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

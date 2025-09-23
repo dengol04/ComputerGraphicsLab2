@@ -10,6 +10,7 @@ import ru.golubov.computergraphicslab2task1.DifferenceBetweenHalftoneImagesFinde
 public class DifferenceBetweenHalftoneImagesFinderImpl implements DifferenceBetweenHalftoneImagesFinder {
     private Image firstHalftoneImage;
     private Image secondHalftoneImage;
+    private final double BRIGHTNESS_INCREASE_VALUE = 0.3;
     public DifferenceBetweenHalftoneImagesFinderImpl(Image firstHalftoneImage, Image secondHalftoneImage) {
         this.firstHalftoneImage = firstHalftoneImage;
         this.secondHalftoneImage = secondHalftoneImage;
@@ -26,7 +27,7 @@ public class DifferenceBetweenHalftoneImagesFinderImpl implements DifferenceBetw
         for (int x = 0; x < firstHalftoneImage.getWidth(); ++x)
             for (int y = 0; y < firstHalftoneImage.getHeight(); ++y) {
                 double difference = Math.abs(firstHalftoneImagePixelReader.getColor(x, y).getBlue() -
-                        secondHalftoneImagePixelReader.getColor(x, y).getBlue()) + 0.2;
+                        secondHalftoneImagePixelReader.getColor(x, y).getBlue()) + BRIGHTNESS_INCREASE_VALUE;
 
                 differenceImagePixelWriter.setColor(x, y, Color.color(difference, difference, difference));
             }
