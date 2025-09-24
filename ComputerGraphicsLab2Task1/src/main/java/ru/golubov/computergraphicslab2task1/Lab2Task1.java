@@ -44,6 +44,8 @@ public class Lab2Task1 extends Application {
 
             try {
                 originalImage = new Image(choosenFile.toURI().toString());
+                if (originalImage.isError())
+                    throw new IllegalArgumentException("Error loading image: " + choosenFile.toURI());
             } catch (IllegalArgumentException error) {
                 createErrorStage(error.getMessage());
             }
@@ -185,7 +187,7 @@ public class Lab2Task1 extends Application {
         Label errorLabel = new Label("Error: " + errorMessage);
         errorStageSceneRoot.getChildren().add(errorLabel);
 
-        Scene errorStageScene = new Scene(errorStageSceneRoot, 200, 300);
+        Scene errorStageScene = new Scene(errorStageSceneRoot, 500, 100);
         errorStage.setScene(errorStageScene);
         errorStage.show();
     }
